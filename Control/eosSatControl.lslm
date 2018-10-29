@@ -1,0 +1,17 @@
+$module ()
+
+
+roll(vector pstart, vector proll)
+{
+	llSetLocalRot(llEuler2Rot(pstart+proll));
+}
+
+pitch(vector pstart, vector ppitch)
+{
+	llSetLocalRot(llEuler2Rot(pstart+ppitch));
+}
+
+yaw(vector pstart, vector pyaw)
+{
+	llSetLocalRot(llEuler2Rot(pstart+pyaw));
+}

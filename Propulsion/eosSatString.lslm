@@ -1,0 +1,35 @@
+$module ()
+
+//Creative Commons Attribution-Share Alike 3.0. Source = Linden Labs
+string right(string src, string divider) {
+    integer index = llSubStringIndex( src, divider );
+    if(~index)
+        return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);
+    return src;
+}
+
+//Creative Commons Attribution-Share Alike 3.0. Source = Linden Labs
+string left(string src, string divider) {
+    integer index = llSubStringIndex( src, divider );
+    if(~index)
+        return llDeleteSubString( src, index + llStringLength(divider), -1);
+    return src;
+}
+
+//Author: Very Keynes. Originally posted February 2008 at http://forums.secondlife.com/showthread.php?t=243445 .
+integer like(string value, string mask) {
+    integer tmpy = (llGetSubString(mask,  0,  0) == "%") | 
+                  ((llGetSubString(mask, -1, -1) == "%") << 1);
+    if(tmpy)
+        mask = llDeleteSubString(mask, (tmpy / -2), -(tmpy == 2));
+ 
+    integer tmpx = llSubStringIndex(value, mask);
+    if(~tmpx) {
+        integer diff = llStringLength(value) - llStringLength(mask);
+        return  ((!tmpy && !diff)
+             || ((tmpy == 1) && (tmpx == diff))
+             || ((tmpy == 2) && !tmpx)
+             ||  (tmpy == 3));
+    }
+    return FALSE;
+}

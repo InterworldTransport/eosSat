@@ -1,0 +1,70 @@
+//************
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// written by Alfred Differ
+// date ~April 2009
+// copyright 2009
+//
+//************
+
+$module ()
+
+$import eosSatString.lslm () str_;
+
+list checkParent(string message)
+{
+	if 	(llSubStringIndex(message, "setparent") == 0)
+	{	//The Parent's identity is being offered.  Use the key in the string.
+       	key parentObject=(key)str_right(message, "setparent ");
+       	//Now get parentObject's center of mass and orientation information.
+       	return [parentObject]+llGetObjectDetails(parentObject, ([OBJECT_POS, OBJECT_ROT]));
+    }
+    else 
+    {
+    	return [];	
+    }
+}
+
+
+translate(vector target, vector diff, float speed, integer debug)
+{
+	do
+    {	
+       	llSetPos(llGetPos()+speed*llVecNorm(diff));
+       	diff=target-llGetPos();
+    }
+    while (llVecMag(diff)>0.01);
+    llSetPos(target);
+    if (debug=1)
+    {
+    	llOwnerSay(" says on position target @: "+(string)llGetPos());
+    }
+}
+rotate(rotation target, rotation diff, float speed, integer debug)
+{
+	vector axis=llRot2Axis(diff);
+	float angle=llRot2Angle(diff);
+	do
+	{
+		llSetRot(llAxisAngle2Rot(axis, speed*angle)*llGetRot());
+		diff=target/llGetRot();
+	}
+	while (llFabs(diff.s)<0.99);
+	llSetRot(target);
+	if (debug=1)
+    {
+		llOwnerSay(" says on rotation target @: "+(string)llGetRot());
+    }
+}

@@ -1,0 +1,11 @@
+$module ()
+
+// Verbal feedback to the avatar operating the unit is provided by the Say function.
+SayAttitude(string pmessage)
+{
+    llOwnerSay(llGetObjectName()+" says the current global Qrotation is: "+(string)llGetRootRotation());
+    llOwnerSay(llGetObjectName()+" says the current local Qrotation is: "+(string)llGetLocalRot());
+    llOwnerSay(llGetObjectName()+" says the global Evector is: "+(string)llRot2Euler(llGetRootRotation()));
+    llOwnerSay(llGetObjectName()+" says the local Evector is: "+(string)llRot2Euler(llGetLocalRot()));
+    llOwnerSay("Last command to the unit was: "+ pmessage);
+}
